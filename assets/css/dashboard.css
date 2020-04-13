@@ -1,0 +1,82 @@
+body { 
+    overflow-x: hidden;
+    padding: 0;
+    margin: 0;
+  }
+
+  nav {
+    font-family: 'Montserrat', sans-serif;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-family: 'Nunito Sans', sans-serif;
+  }
+  
+  nav ul {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  
+  nav ul li {
+    list-style: none;
+    padding: 0 20px;
+  }
+  
+  .input-form input {
+    margin: 10px;
+  }
+  
+  main {
+    margin-top: 5px;
+    font-family: 'Montserrat', sans-serif;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-family: 'Nunito Sans', sans-serif;
+  }
+  
+  /* stroke */
+  nav.stroke ul li a,
+  nav.fill ul li a {
+    position: relative;
+  }
+  
+  nav.stroke ul li a:after,
+  nav.fill ul li a:after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 0%;
+    content: '.';
+    color: transparent;
+    background: #aaa;
+    height: 1px;
+  }
+  
+  nav.stroke ul li a:hover:after {
+    width: 100%;
+  }
+  
+  nav.fill ul li a {
+    -webkit-transition: all 2s;
+    transition: all 2s;
+  }
+  
+  nav.fill ul li a:after {
+    text-align: left;
+    content: '.';
+    margin: 0;
+    opacity: 0;
+  }
+  
+  nav.fill ul li a:hover {
+    color: #fff;
+    z-index: 1;
+  }
+  
+  nav.fill ul li a:hover:after {
+    z-index: -10;
+    animation: fill 1s forwards;
+    -webkit-animation: fill 1s forwards;
+    -moz-animation: fill 1s forwards;
+    opacity: 1;
+  }
