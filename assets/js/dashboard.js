@@ -2,21 +2,22 @@ const dataAPI = "https://5e8f1a42fe7f2a00165eee1d.mockapi.io/book-details";
 const getDiv = document.getElementById('card-show')
 
 // console.log(getDiv);
+const activeUser = JSON.parse(localStorage.getItem('loginUser'))
 
-const getDataAPI = async () => {
-    const fetchData = await fetch(dataAPI);
+const getDataAPI = () => {
     getDiv.innerHTML = "";
-    const showResult = await fetchData.json();
 
-    // console.log(showResult);
+    fetch(dataAPI)
+        .then(response => response.json())
+        .then(result => {
+            const users = result.filter(result => {
+                return result.userId === activeUser.id
+            })
+            users.forEach(element => {
+                const newDiv = document.createElement('div')
+                newDiv.setAttribute('class', 'col-md-4')
 
-
-    showResult.forEach((element) => {
-        const newDiv = document.createElement('div')
-        newDiv.setAttribute('class', 'col-md-4')
-
-        // let newDiv2 = newDiv.innerHTML
-        newDiv.innerHTML = `<div class="card mb-3" style="max-width: 540px;"><div class="row no-gutters">
+                newDiv.innerHTML = `<div class="card mb-3" style="max-width: 540px;"><div class="row no-gutters">
             <div class="col-md-4">
                 <img src="${element.image}"
                     class="card-img" alt="${element.title}">
@@ -32,18 +33,17 @@ const getDataAPI = async () => {
             </div>
         </div>
     </div>`
-        getDiv.appendChild(newDiv)
-
-    });
-
-
+                getDiv.appendChild(newDiv)
+            });
+        })
+        .catch(error => console.log(error))
 }
+
 
 const formDetailBooks = document.getElementById('form-detail-books');
 
 const addNewDetail = async (event) => {
     event.preventDefault();
-    // console.log('masuk');
 
     let title = document.getElementById('title').value
     let image = document.getElementById('img').value
@@ -57,6 +57,7 @@ const addNewDetail = async (event) => {
             image,
             description,
             author,
+            userId: activeUser.id
         }
 
         const fetchData = await fetch(dataAPI, {
@@ -77,7 +78,6 @@ const addNewDetail = async (event) => {
     else {
         alert("The input cannot be empty")
     }
-
 
 };
 

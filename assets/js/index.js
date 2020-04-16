@@ -1,35 +1,38 @@
 const loginForm = document.getElementById("loginForm");
 
-const userLogin = (event)=>{
-    event.preventDefault();
-    let userData = JSON.parse(localStorage.getItem('userData'))
-    const emailInput = document.getElementById("email").value;
-    const passwordInput = document.getElementById("password").value;
-    count = 0;
-    if(emailInput === "" && passwordInput ===""){
-        alert("form cannot be empty")
+const userLogin = (event) => {
+    event.preventDefault()
+
+    let userData = {
+        email: document.getElementById('email').value, 
+        password: document.getElementById('password').value
+    }
+
+    if (userData.email === "") {
+        alert("Email cannot be empty")
+    }
+    else if (userData.password === "") {
+        alert("Password cannot be empty")
     }
     else {
+        const dataAPIUser = "https://5e8f1a42fe7f2a00165eee1d.mockapi.io/users";
 
-        for(let i = 0 ; i<userData.length ; i++){
-            if(emailInput === userData[i].email && passwordInput === userData[i].password){
-                count += 1;
-                alert("Your Login is Success");
-                window.location.href = `${window.origin}/dashboard.html`;
-                // break;
+        fetch(dataAPIUser).then(response => response.json()).then(result => {
+            const loginUser = result.find(result => result.email === userData.email)
+
+            if (loginUser === undefined) {
+                alert('Your email is not registered yet. Please sign up')
             }
-            else if (emailInput === userData[i].email && passwordInput !== userData[i].password) {
-                alert("Wrong Password")
-                // break;
-            }
-            else if (emailInput !== userData[i].email && passwordInput === userData[i].password) {
-                alert("Wrong Email")
-                // break;
+            else if (loginUser.email === userData.email && loginUser.password === userData.password) {
+                alert('You have successfully login')
+                localStorage.setItem('loginUser',JSON.stringify(loginUser))
+                location.href = 'http://127.0.0.1:5500/dashboard.html'
             }
             else {
-                alert("You don't have account yet! Please sign up")
+                alert('Email or password is incorrect')
             }
-        }
+        })
     }
 }
+
 loginForm.addEventListener("submit", userLogin);
