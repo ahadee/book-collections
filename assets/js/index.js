@@ -26,7 +26,7 @@ const userLogin = (event) => {
             else if (loginUser.email === userData.email && loginUser.password === userData.password) {
                 alert('You have successfully login')
                 localStorage.setItem('loginUser',JSON.stringify(loginUser))
-                location.href = 'http://127.0.0.1:5500/dashboard.html'
+                location.href = `${window.origin}/dashboard.html`
             }
             else {
                 alert('Email or password is incorrect')
